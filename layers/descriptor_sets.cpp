@@ -2460,6 +2460,24 @@ bool CoreChecks::ValidateWriteUpdate(const DescriptorSet *dest_set, const VkWrit
         *error_msg = error_str.str();
         return false;
     }
+
+    /*auto descriptors_remaining = update->descriptorCount;
+    auto binding_being_updated = update->dstBinding;
+    auto offset = update->dstArrayElement;
+    uint32_t update_index = 0;
+    while (descriptors_remaining) {
+        uint32_t update_count = std::min(descriptors_remaining, dest_layout->GetDescriptorCountFromBinding(binding_being_updated));
+        auto global_idx = dest_layout->GetGlobalIndexRangeFromBinding(binding_being_updated).start + offset;
+        // Loop over the updates for a single binding at a time
+        for (uint32_t di = 0; di < update_count; ++di, ++update_index) {
+            descriptors_[global_idx + di]->WriteUpdate(update, update_index);
+        }
+        // Roll over to next binding in case of consecutive update
+        descriptors_remaining -= update_count;
+        offset = 0;
+        binding_being_updated++;
+    }*/
+
     // All checks passed, update is clean
     return true;
 }
